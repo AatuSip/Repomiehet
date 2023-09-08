@@ -19,6 +19,10 @@ Aatu Tuoteen omistaja
 Aleksi Koodari
 Otto Ohjelmistokehittäjä
 
+Missä tehdään ja Milloin?
+Tehdään pääasiassa projektia ryhmän kanssa koululla.
+Mutta välillä pidetään etukäteen suuniteltuja etäpäiviä.
+
 
 
 

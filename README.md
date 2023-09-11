@@ -19,7 +19,7 @@ Simo = Scrummaster
 
 Aatu = Tuoteen omistaja
 
-Aleksi = Koodari
+Alex = Koodari
 
 Otto = Ohjelmistokehittäjä
 

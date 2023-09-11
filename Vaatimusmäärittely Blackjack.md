@@ -8,13 +8,13 @@ Aatu, Simo, Otto, Alex.
  
  
 
-1. Johdanto 
+## 1. Johdanto 
 
 1.1 Dokumentti sisältää Blackjackin vaatimusmäärittelyn. Dokumentissa on kuvattu tuotteen toiminnalliset vaatimukset, ei-toiminnalliset vaatimukset sekä dokumentin käyttötarkoitus ja menettely päivittämisen suhteen. Dokumenttia käytetään Blackjack –tuotteen toteuttamiseksi näiden yhdessä hyväksyttyjen vaatimusten mukaisesti. 
 
  _______
  
-2. Toiminnalliset vaatimukset 
+## 2. Toiminnalliset vaatimukset 
  
 2.1 Toimiva blackjack peli. 
 
@@ -27,7 +27,7 @@ Aatu, Simo, Otto, Alex.
 
  _______
  
-3. Ei-toiminnalliset vaatimukset 
+## 3. Ei-toiminnalliset vaatimukset 
  
 
 3.1 Käyttäjäkokemus: 
@@ -52,7 +52,7 @@ Tuki useille suosituille selaimille kuten, Chrome, Firefox, Safari ja Edge.
 
 ______
  
-4. Tietokannan vaatimukset 
+## 4. Tietokannan vaatimukset 
 
 4.1 Käyttäjätunnukset omalle taululle. 
 
@@ -60,6 +60,6 @@ ______
 
  _______
 
-5. Muut tiedot 
+## 5. Muut tiedot 
 
 5.1 Tämä vaatimusdokumentti on luotu 4.9.2023. Netti Blackjack peliä varten, ja se on voimassa toistaiseksi. Dokumenttia päivitetään tarvittaessa sivuston kehittämiseksi. 

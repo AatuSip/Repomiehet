@@ -1,4 +1,4 @@
-Vaatimusmäärittely 0.1 Blackjack  
+Vaatimusmäärittely 0.11 Blackjack  
 
 TiVi22 
 
@@ -56,7 +56,7 @@ ______
 
 4.1 Käyttäjätunnukset omalle taululle. 
 
-4.2 Käyttäjien rahamäärä ja voittoprosentti omalle taululle. 
+4.2 Käyttäjien rahamäärä + voittojen ja häviöiden määrä omalle taululle. 
 
  _______
 

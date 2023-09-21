@@ -1,4 +1,4 @@
-Vaatimusmäärittely 0.11 Blackjack  
+Vaatimusmäärittely 0.2 Blackjack  
 
 TiVi22 
 
@@ -54,10 +54,11 @@ ______
  
 ## 4. Tietokannan vaatimukset 
 
-4.1 Käyttäjätunnukset omalle taululle. 
+4.1 Tietokantaan tulee taulut Käyttäjät ja Rahat.
 
-4.2 Käyttäjien rahamäärä + voittojen ja häviöiden määrä omalle taululle. 
+4.2 Käyttäjät tauluun tallentuu (id PRIMARY KEY, käyttäjänimi TEXT, salasana TEXT)
 
+4.3 Rahat tauluun tallentuu (id PRIMARY KEY, käyttäjä_id, rahamäärä INTEGER)
  _______
 
 ## 5. Muut tiedot 

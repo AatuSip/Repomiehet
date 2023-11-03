@@ -1,0 +1,14 @@
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\bin\Debug\net7.0\Blackjack.exe
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\bin\Debug\net7.0\Blackjack.deps.json
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\bin\Debug\net7.0\Blackjack.runtimeconfig.json
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\bin\Debug\net7.0\Blackjack.dll
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\bin\Debug\net7.0\Blackjack.pdb
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.AssemblyInfoInputs.cache
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.AssemblyInfo.cs
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.csproj.CoreCompileInputs.cache
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.dll
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\refint\Blackjack.dll
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.pdb
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\Blackjack.genruntimeconfig.cache
+C:\Users\Simo\Documents\GitHub\Repomiehet\Itse_peli\Blackjack\obj\Debug\net7.0\ref\Blackjack.dll

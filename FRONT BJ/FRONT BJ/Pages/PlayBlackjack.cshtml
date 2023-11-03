@@ -1,0 +1,102 @@
+﻿@page
+@model FRONT_BJ.Pages.PlayBlackjackModel
+@{
+    ViewData["Title"] = "Play Blackjack";
+}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Blackjack Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #075f30;
+            color: #fff;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        h1 {
+            font-size: 36px;
+            margin-top: 20px;
+        }
+
+        #game-container {
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        .hand {
+            background-color: #222;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .hand ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .hand ul li {
+            display: inline-block;
+            margin: 5px;
+            background-color: #333;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        #actions {
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Blackjack Game</h1>
+
+    <div id="game-container">
+        <div class="hand">
+            <h2>Player Hand</h2>
+            <ul>
+                <li>2</li>
+                <li>Ace</li>
+                <!-- Add cards dynamically with JavaScript -->
+            </ul>
+            <p>Total: 13</p>
+        </div>
+
+        <div class="hand">
+            <h2>Dealer Hand</h2>
+            <ul>
+                <li>King</li>
+                <li>5</li>
+                <!-- Add cards dynamically with JavaScript -->
+            </ul>
+            <p>Total: 15</p>
+        </div>
+    </div>
+
+    <div id="actions">
+        <button id="hit-button">Hit</button>
+        <button id="stand-button">Stand</button>
+    </div>
+</body>
+</html>

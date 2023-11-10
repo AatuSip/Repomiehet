@@ -1,0 +1,15 @@
+{
+  "version": 2,
+  "dgSpecHash": "rXwnaMuVeFGp6sNOiy7URd5HcbP1Y95BYkAVaT06p0iSRHbtL6vVfEpzLPG0rtlmCjyKw3i2rtoZ3bVhomAaMA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Tivi\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONT BJ.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Tivi\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
+    "C:\\Users\\Tivi\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\Tivi\\.nuget\\packages\\swashbuckle.aspnetcore\\6.5.0\\swashbuckle.aspnetcore.6.5.0.nupkg.sha512",
+    "C:\\Users\\Tivi\\.nuget\\packages\\swashbuckle.aspnetcore.swagger\\6.5.0\\swashbuckle.aspnetcore.swagger.6.5.0.nupkg.sha512",
+    "C:\\Users\\Tivi\\.nuget\\packages\\swashbuckle.aspnetcore.swaggergen\\6.5.0\\swashbuckle.aspnetcore.swaggergen.6.5.0.nupkg.sha512",
+    "C:\\Users\\Tivi\\.nuget\\packages\\swashbuckle.aspnetcore.swaggerui\\6.5.0\\swashbuckle.aspnetcore.swaggerui.6.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}

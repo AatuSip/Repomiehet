@@ -29,8 +29,15 @@ namespace FRONT_BJ.Pages
 
         public void OnGet()
         {
+            InitializeGame();
+            GameStart();
 
-            // Initialize game
+        }
+
+        public void InitializeGame()
+        {
+            //initialize game
+
             CardValues.Add("A", 1);
             CardValues.Add("2", 2);
             CardValues.Add("3", 3);
@@ -50,7 +57,21 @@ namespace FRONT_BJ.Pages
             CardSuits.Add(3, "Clubs");
             CardSuits.Add(4, "Spades");
 
+            for (int i = 1; i <= 13; i++)
+            {
+                for (int j = 1; j <= 4; j++)
+                {
+                    Cards.Add(i);
+                }
+            }
 
+
+
+        }
+
+        public void GameStart()
+        {
+            
         }
 
         public void OnPostHit()

@@ -31,7 +31,6 @@ namespace FRONT_BJ.Pages
         {
             InitializeGame();
             GameStart();
-
         }
 
         public void InitializeGame()
@@ -52,10 +51,10 @@ namespace FRONT_BJ.Pages
             CardValues.Add("Q", 10);
             CardValues.Add("K", 10);
 
-            CardSuits.Add(1, "Hearts");
-            CardSuits.Add(2, "Diamonds");
-            CardSuits.Add(3, "Clubs");
-            CardSuits.Add(4, "Spades");
+            CardSuits.Add(1, "♥");
+            CardSuits.Add(2, "♦");
+            CardSuits.Add(3, "♣");
+            CardSuits.Add(4, "♠");
 
             for (int i = 1; i <= 13; i++)
             {
@@ -65,27 +64,234 @@ namespace FRONT_BJ.Pages
                 }
             }
 
-
-
         }
 
         public void GameStart()
         {
-            
+            string card;
+            DealerScore = 0;
+            PlayerScore = 0;
+
+            BetPlaced = false;
+
+            while (!BetPlaced)
+            {
+                if (Bet > Money)
+                {
+                    continue;
+                }
+                else if (Bet <= 0)
+                {
+                    continue;
+                }
+                else
+                {
+                    Money = Money - Bet;
+                    BetPlaced = true;
+                }
+            }
+
+            card = Hit();
+            PlayerHand.Add(card);
+            card = Hit();
+            PlayerHand.Add(card);
+
+            card = Hit();
+            DealerHand.Add(card);
         }
 
-        public void OnPostHit()
+        public void Blackjack()
         {
-            // Handle hit action
+            while (true)
+            {
+                string cardNumber;
+                string cardSuit;
 
+                PlayerScore = 0;
+                DealerScore = 0;
 
+                string playerCards = "";
+                foreach (string item in PlayerHand)
+                {
+                    string[] cardSplit = item.Split(' ');
+                    cardNumber = cardSplit[1];
+                    cardSuit = cardSplit[0];
+                    playerCards = playerCards + cardNumber + " of " + cardSuit + ", ";
+                    PlayerScore = PlayerScore + CardValues[cardNumber];
+                }
+                playerCards = playerCards.Remove(playerCards.Length - 2);
+
+                string dealerCards = "";
+                foreach (string item in DealerHand)
+                {
+                    string[] cardSplit = item.Split(' ');
+                    cardNumber = cardSplit[1];
+                    cardSuit = cardSplit[0];
+                    dealerCards = dealerCards + cardNumber + " of " + cardSuit + ", ";
+                }
+                dealerCards = dealerCards.Remove(dealerCards.Length - 2);
+
+                CheckBust();
+                if (PlayerBust == true)
+                {
+                    foreach (string item in PlayerHand)
+                    {
+                        string[] cardSplit = item.Split(' ');
+                        cardNumber = cardSplit[1];
+                        cardSuit = cardSplit[0];
+                        playerCards = playerCards + cardNumber + " of " + cardSuit + ", ";
+                        PlayerScore = PlayerScore + CardValues[cardNumber];
+                    }
+                    playerCards = playerCards.Remove(playerCards.Length - 2);
+                    break;
+                }
+                else
+                {
+                    string input = ""; // Replace this with your own input method
+
+                    if (input == "1")
+                    {
+                        string card = OnPostHit();
+                        PlayerHand.Add(card);
+                    }
+                    else if (input == "2")
+                    {
+                        OnPostStand();
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+                }
+            }
+
+            PlayerHand.Clear();
+            DealerHand.Clear();
+            PlayerBust = false;
+            DealerBust = false;
+            PlayerScore = 0;
+            DealerScore = 0;
+            PlayedCards.Clear();
         }
 
-        public void OnPostStand()
+        public string OnPostHit()
         {
-            // Handle stand action
+            Random rnd = new Random();
+            int card;
+            int suit = 1;
+
+            do
+            {
+                card = rnd.Next(Cards.Count);
+
+                while (card > 13)
+                {
+                    card -= 13;
+                    suit++;
+                }
+
+            } while (PlayedCards.Contains(card));
+
+            PlayedCards.Add(card);
+
+            if (card == 0)
+            {
+                card = 13;
+            }
+
+            string returnableCard = CardSuits[suit] + card.ToString();
+
+            return returnableCard;
         }
 
-        // Add other methods and properties as needed
+
+        public string OnPostStand()
+        {
+            string card;
+            string cardNumber;
+            string cardSuit;
+            string playerCards = "";
+            string dealerCards = "";
+
+            while (!(DealerScore > 17 && !DealerBust) == true)
+            {
+                DealerScore = 0;
+                PlayerScore = 0;
+
+                card = OnPostHit();
+                DealerHand.Add(card);
+                foreach (string item in DealerHand)
+                {
+                    string[] cardSplit = item.Split(' ');
+                    cardNumber = cardSplit[1];
+                    cardSuit = cardSplit[0];
+                    DealerScore = DealerScore + CardValues[cardNumber];
+                    dealerCards = dealerCards + cardNumber + " of " + cardSuit + ", ";
+                }
+
+                foreach (string item in PlayerHand)
+                {
+                    string[] cardSplit = item.Split(' ');
+                    cardNumber = cardSplit[1];
+                    cardSuit = cardSplit[0];
+                    PlayerScore = PlayerScore + CardValues[cardNumber];
+                    playerCards = playerCards + cardNumber + " of " + cardSuit + ", ";
+                }
+                playerCards = playerCards.Remove(playerCards.Length - 2);
+
+                dealerCards = dealerCards.Remove(dealerCards.Length - 2);
+
+                CheckBust();
+                if (DealerScore > 17 || DealerBust == true)
+                {
+                    break;
+                }
+            }
+
+            string result = "";
+            if (DealerBust == true)
+            {
+                result = "The dealer busted!";
+                Money = Money + Bet * 2;
+            }
+            else if (PlayerScore > DealerScore)
+            {
+                result = "You won!";
+                Money = Money + Bet * 2;
+            }
+            else if (PlayerScore == DealerScore)
+            {
+                result = "It's a tie!";
+                Money = Money + Bet;
+            }
+            else
+            {
+                result = "You lost!";
+            }
+
+            PlayerHand.Clear();
+            DealerHand.Clear();
+            PlayerBust = false;
+            DealerBust = false;
+            PlayerScore = 0;
+            DealerScore = 0;
+            PlayedCards.Clear();
+
+        }
+
+
+        public void CheckBust()
+        {
+            if (this.PlayerScore > 21) // Check if the player has busted
+            {
+                this.PlayerBust = true; // Set player bust to true
+            }
+
+            if (this.DealerScore > 21) // Check if the dealer has busted
+            {
+                this.DealerBust = true; // Set dealer bust to true
+            }
+        }
     }
 }

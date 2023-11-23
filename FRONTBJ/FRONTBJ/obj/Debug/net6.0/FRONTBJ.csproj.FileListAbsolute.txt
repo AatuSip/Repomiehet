@@ -1,0 +1,9 @@
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.csproj.AssemblyReference.cache
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.AssemblyInfoInputs.cache
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.AssemblyInfo.cs
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.csproj.CoreCompileInputs.cache
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.MvcApplicationPartsAssemblyInfo.cs
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.RazorAssemblyInfo.cache
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\frontbj\frontbj\obj\Debug\net6.0\FRONTBJ.RazorAssemblyInfo.cs

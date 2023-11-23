@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "wzWZiOPZmUsB9cQcmAselcpSny9pKAataRZAkBuCpnnetnJCwIgU6DwFO+vB1GFf/fnir9n6KnhVhpKge8OKYA==",
+  "dgSpecHash": "2DXVYX9Cu+lG/eSb8iv6fGLaT1cPl0ffKrhKwZP8j5NmzY6JJ/u4uJdei1QI2Fk+BfNU2W4tYy0y6so1AA6EYA==",
   "success": true,
-  "projectFilePath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj",
+  "projectFilePath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jkvo1\\.nuget\\packages\\microsoft.data.sqlite\\7.0.13\\microsoft.data.sqlite.7.0.13.nupkg.sha512",
     "C:\\Users\\jkvo1\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.13\\microsoft.data.sqlite.core.7.0.13.nupkg.sha512",

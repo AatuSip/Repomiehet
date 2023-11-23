@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj": {}
+    "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj": {}
   },
   "projects": {
-    "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj": {
+    "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj",
+        "projectUniqueName": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
         "projectName": "FRONTBJ",
-        "projectPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj",
+        "projectPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
         "packagesPath": "C:\\Users\\jkvo1\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\obj\\",
+        "outputPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jkvo1\\AppData\\Roaming\\NuGet\\NuGet.Config",

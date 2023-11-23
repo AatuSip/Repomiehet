@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FRONT BJ", "FRONT BJ\FRONT BJ.csproj", "{06D1CFF8-4142-4AAE-94E9-E8DF5D010D38}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FRONTBJ", "FRONTBJ\FRONTBJ.csproj", "{06D1CFF8-4142-4AAE-94E9-E8DF5D010D38}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -1,5 +1,5 @@
 ﻿@page
-@model FRONT_BJ.Pages.PlayBlackjackModel
+@model FRONTBJ.Pages.PlayBlackjackModel
 @{
     ViewData["Title"] = "Play Blackjack";
 }
@@ -76,27 +76,29 @@
         <div class="hand">
             <h2>Player Hand</h2>
             <ul>
-                <li>2</li>
-                <li>Ace</li>
-                <!-- Add cards dynamically with JavaScript -->
+                @foreach (var card in Model.PlayerHand)
+                {
+                    <li>@card</li>
+                }
             </ul>
-            <p>Total: 13</p>
         </div>
 
         <div class="hand">
             <h2>Dealer Hand</h2>
             <ul>
-                <li>King</li>
-                <li>5</li>
-                <!-- Add cards dynamically with JavaScript -->
+                @foreach (var card in Model.DealerHand)
+                {
+                    <li>@card</li>
+                }
             </ul>
-            <p>Total: 15</p>
         </div>
     </div>
 
     <div id="actions">
-        <button id="hit-button">Hit</button>
-        <button id="stand-button">Stand</button>
+        <form method="post">
+            <button type="submit" name="action" value="Hit">Hit</button>
+            <button type="submit" name="action" value="Stand">Stand</button>
+        </form>
     </div>
 </body>
 </html>

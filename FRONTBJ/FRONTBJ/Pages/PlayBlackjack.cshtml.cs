@@ -1,15 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Reflection.Emit;
-using System.Data;
 using System;
 using System.Collections.Generic;
+using System.Text;
 
 
-namespace FRONT_BJ.Pages
+namespace FRONTBJ.Pages
 {
     public class PlayBlackjackModel : PageModel
     {
@@ -24,13 +20,17 @@ namespace FRONT_BJ.Pages
         public bool PlayerBust { get; set; } = false;
         public int DealerScore { get; set; } = 0;
         public bool DealerBust { get; set; } = false;
-        public int Money { get; set; } = 1000;
-        public int Bet { get; set; } = 0;
+        private const int MaxCardValue = 13;
+        private const int MaxScore = 21;
+        public string GameResult { get; set; }
+        private static Random rnd = new Random();
 
         public void OnGet()
         {
             InitializeGame();
             GameStart();
+           // Blackjack();
+            GameResult = DetermineWinner();
         }
 
         public void InitializeGame()
@@ -68,208 +68,96 @@ namespace FRONT_BJ.Pages
 
         public void GameStart()
         {
-            string card;
             DealerScore = 0;
             PlayerScore = 0;
 
-            BetPlaced = false;
-
-            while (!BetPlaced)
+            for (int i = 0; i < 3; i++)
             {
-                if (Bet > Money)
+                IActionResult result = DrawCard();
+                if (result is ContentResult contentResult)
                 {
-                    continue;
-                }
-                else if (Bet <= 0)
-                {
-                    continue;
-                }
-                else
-                {
-                    Money = Money - Bet;
-                    BetPlaced = true;
+                    if (PlayerHand.Count < 2)
+                    {
+                        PlayerHand.Add(contentResult.Content);
+                    }
+                    else
+                    {
+                        DealerHand.Add(contentResult.Content);
+                    }
                 }
             }
 
-            card = Hit();
-            PlayerHand.Add(card);
-            card = Hit();
-            PlayerHand.Add(card);
-
-            card = Hit();
-            DealerHand.Add(card);
         }
 
         public void Blackjack()
         {
-            while (true)
+            while (!(PlayerBust || PlayerScore >= MaxScore || DealerScore >= MaxScore || (PlayerScore > DealerScore && DealerScore >= 17)))
             {
-                string cardNumber;
-                string cardSuit;
-
-                PlayerScore = 0;
-                DealerScore = 0;
-
-                string playerCards = "";
-                foreach (string item in PlayerHand)
-                {
-                    string[] cardSplit = item.Split(' ');
-                    cardNumber = cardSplit[1];
-                    cardSuit = cardSplit[0];
-                    playerCards = playerCards + cardNumber + " of " + cardSuit + ", ";
-                    PlayerScore = PlayerScore + CardValues[cardNumber];
-                }
-                playerCards = playerCards.Remove(playerCards.Length - 2);
-
-                string dealerCards = "";
-                foreach (string item in DealerHand)
-                {
-                    string[] cardSplit = item.Split(' ');
-                    cardNumber = cardSplit[1];
-                    cardSuit = cardSplit[0];
-                    dealerCards = dealerCards + cardNumber + " of " + cardSuit + ", ";
-                }
-                dealerCards = dealerCards.Remove(dealerCards.Length - 2);
-
-                CheckBust();
-                if (PlayerBust == true)
-                {
-                    foreach (string item in PlayerHand)
-                    {
-                        string[] cardSplit = item.Split(' ');
-                        cardNumber = cardSplit[1];
-                        cardSuit = cardSplit[0];
-                        playerCards = playerCards + cardNumber + " of " + cardSuit + ", ";
-                        PlayerScore = PlayerScore + CardValues[cardNumber];
-                    }
-                    playerCards = playerCards.Remove(playerCards.Length - 2);
-                    break;
-                }
-                else
-                {
-                    string input = ""; // Replace this with your own input method
-
-                    if (input == "1")
-                    {
-                        string card = OnPostHit();
-                        PlayerHand.Add(card);
-                    }
-                    else if (input == "2")
-                    {
-                        OnPostStand();
-                        break;
-                    }
-                    else
-                    {
-                        break;
-                    }
-                }
+                PlayerTurn();
+                DealerTurn();
             }
 
-            PlayerHand.Clear();
-            DealerHand.Clear();
-            PlayerBust = false;
-            DealerBust = false;
-            PlayerScore = 0;
-            DealerScore = 0;
-            PlayedCards.Clear();
+            DetermineWinner();
+            ResetGame();
         }
 
-        public string OnPostHit()
+        private void PlayerTurn()
         {
-            Random rnd = new Random();
-            int card;
-            int suit = 1;
-
-            do
+            if (PlayerScore < MaxScore)
             {
-                card = rnd.Next(Cards.Count);
-
-                while (card > 13)
+                IActionResult hitResult = OnPostHit();
+                if (hitResult is ContentResult contentResult)
                 {
-                    card -= 13;
-                    suit++;
+                    PlayerHand.Add(contentResult.Content);
+                    CalculatePlayerScore();
                 }
-
-            } while (PlayedCards.Contains(card));
-
-            PlayedCards.Add(card);
-
-            if (card == 0)
-            {
-                card = 13;
             }
-
-            string returnableCard = CardSuits[suit] + card.ToString();
-
-            return returnableCard;
         }
 
-
-        public string OnPostStand()
+        private void DealerTurn()
         {
-            string card;
-            string cardNumber;
-            string cardSuit;
-            string playerCards = "";
-            string dealerCards = "";
-
-            while (!(DealerScore > 17 && !DealerBust) == true)
+            while (DealerScore < 17 && !DealerBust)
             {
-                DealerScore = 0;
-                PlayerScore = 0;
-
-                card = OnPostHit();
-                DealerHand.Add(card);
-                foreach (string item in DealerHand)
+                IActionResult hitResult = OnPostHit();
+                if (hitResult is ContentResult contentResult)
                 {
-                    string[] cardSplit = item.Split(' ');
-                    cardNumber = cardSplit[1];
-                    cardSuit = cardSplit[0];
-                    DealerScore = DealerScore + CardValues[cardNumber];
-                    dealerCards = dealerCards + cardNumber + " of " + cardSuit + ", ";
-                }
-
-                foreach (string item in PlayerHand)
-                {
-                    string[] cardSplit = item.Split(' ');
-                    cardNumber = cardSplit[1];
-                    cardSuit = cardSplit[0];
-                    PlayerScore = PlayerScore + CardValues[cardNumber];
-                    playerCards = playerCards + cardNumber + " of " + cardSuit + ", ";
-                }
-                playerCards = playerCards.Remove(playerCards.Length - 2);
-
-                dealerCards = dealerCards.Remove(dealerCards.Length - 2);
-
-                CheckBust();
-                if (DealerScore > 17 || DealerBust == true)
-                {
-                    break;
+                    DealerHand.Add(contentResult.Content);
+                    CalculateDealerScore();
                 }
             }
+        }
 
+        private string DetermineWinner()
+        {
             string result = "";
-            if (DealerBust == true)
+
+            if (PlayerBust)
             {
-                result = "The dealer busted!";
-                Money = Money + Bet * 2;
+                result = "You busted! Dealer wins.";
+            }
+            else if (DealerBust)
+            {
+                result = "The dealer busted! You win.";
             }
             else if (PlayerScore > DealerScore)
             {
                 result = "You won!";
-                Money = Money + Bet * 2;
             }
             else if (PlayerScore == DealerScore)
             {
                 result = "It's a tie!";
-                Money = Money + Bet;
             }
             else
             {
                 result = "You lost!";
             }
 
+            return result;
+        }
+
+
+        private void ResetGame()
+        {
             PlayerHand.Clear();
             DealerHand.Clear();
             PlayerBust = false;
@@ -277,21 +165,168 @@ namespace FRONT_BJ.Pages
             PlayerScore = 0;
             DealerScore = 0;
             PlayedCards.Clear();
+        }
 
+        private IActionResult DrawCard()
+        {
+            if (Cards.Count == 0)
+            {
+                return Content("No more cards in the deck.");
+            }
+
+            int cardIndex = rnd.Next(Cards.Count);
+            int card = Cards[cardIndex];
+            Cards.RemoveAt(cardIndex);
+            PlayedCards.Add(card);
+
+            string cardValue = CardValues.Keys.ElementAt(card - 1);
+            string cardSuit = CardSuits[rnd.Next(1, 5)];
+
+            return Content($"{cardValue} of {cardSuit}");
+        }
+
+        private IActionResult DrawCardForDealer()
+        {
+            if (Cards.Count == 0)
+            {
+                return Content("No more cards in the deck.");
+            }
+
+            int cardIndex = rnd.Next(Cards.Count);
+            int card = Cards[cardIndex];
+            Cards.RemoveAt(cardIndex);
+            PlayedCards.Add(card);
+
+            string cardValue = CardValues.Keys.ElementAt(card - 1);
+            string cardSuit = CardSuits[rnd.Next(1, 5)];
+
+            return Content($"{cardValue} of {cardSuit}");
         }
 
 
-        public void CheckBust()
+        public IActionResult OnPostHit()
         {
-            if (this.PlayerScore > 21) // Check if the player has busted
+            if (PlayerBust || PlayerScore >= MaxScore)
             {
-                this.PlayerBust = true; // Set player bust to true
+                // Player is already bust or has reached maximum score
+                // Handle this case as needed, for instance, display a message
+                return Content("Cannot hit. Game over for player.");
             }
 
-            if (this.DealerScore > 21) // Check if the dealer has busted
+            if (PlayerHand.Count < 5) // Assuming a maximum of 5 cards per hand
             {
-                this.DealerBust = true; // Set dealer bust to true
+                IActionResult hitResult = DrawCard(); // Custom method to draw a card
+                if (hitResult is ContentResult contentResult)
+                {
+                    PlayerHand.Add(contentResult.Content);
+                    CalculatePlayerScore();
+                }
+                return Content("Hit successful"); // Optional: Message indicating successful hit
             }
+            else
+            {
+                // Player already has the maximum number of cards in hand
+                // Handle this case, for instance, display a message
+                return Content("Maximum cards reached. Cannot hit.");
+            }
+        }
+
+
+        public IActionResult OnPostStand()
+        {
+            if (PlayerBust || PlayerScore >= MaxScore)
+            {
+                // Player is already bust or has reached maximum score
+                // Handle this case as needed, for instance, display a message
+                return Content("Player cannot stand. Game over for player.");
+            }
+
+            while (!(DealerScore > 17) && !DealerBust)
+            {
+                IActionResult hitResult = DrawCardForDealer(); // Custom method to draw a card for the dealer
+                if (hitResult is ContentResult contentResult)
+                {
+                    DealerHand.Add(contentResult.Content);
+                    CalculateDealerScore();
+                }
+            }
+
+            DetermineWinner(); // Method to determine the winner
+
+            // Reset the game state, clear hands, scores, etc.
+            ResetGame();
+
+            return RedirectToPage(); // Redirect to the game page or another page as needed
+        }
+
+        private void CalculateDealerScore()
+        {
+            DealerScore = 0;
+
+            foreach (string item in DealerHand)
+            {
+                string[] cardSplit = item.Split(' ');
+                if (cardSplit.Length >= 2)
+                {
+                    string cardNumber = cardSplit[1];
+                    if (CardValues.ContainsKey(cardNumber))
+                    {
+                        DealerScore += CardValues[cardNumber];
+                    }
+                }
+            }
+
+            // Additional logic for handling Ace as 1 or 11 based on the score
+            if (DealerHand.Any(card => card.Contains("A")) && DealerScore + 10 <= MaxScore)
+            {
+                DealerScore += 10;
+            }
+        }
+
+        private void CalculatePlayerScore()
+        {
+            PlayerScore = 0;
+
+            foreach (string item in PlayerHand)
+            {
+                string[] cardSplit = item.Split(' ');
+                if (cardSplit.Length >= 2)
+                {
+                    string cardNumber = cardSplit[1];
+                    if (CardValues.ContainsKey(cardNumber))
+                    {
+                        PlayerScore += CardValues[cardNumber];
+                    }
+                }
+            }
+
+            // Additional logic for handling Ace as 1 or 11 based on the score
+            if (PlayerHand.Any(card => card.Contains("A")) && PlayerScore + 10 <= MaxScore)
+            {
+                PlayerScore += 10;
+            }
+        }
+
+        public IActionResult OnPost(string action)
+        {
+            if (action == "Hit")
+            {
+
+                IActionResult hitResult = OnPostHit();
+                if (hitResult is ContentResult contentResult)
+                {
+                    PlayerHand.Add(contentResult.Content);
+                }
+            }
+            else if (action == "Stand")
+            {
+
+                IActionResult standResult = OnPostStand();
+
+            }
+
+
+            return RedirectToPage();
         }
     }
 }

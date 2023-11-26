@@ -1,8 +1,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using Newtonsoft.Json;
 
 
 namespace FRONTBJ.Pages
@@ -25,12 +27,28 @@ namespace FRONTBJ.Pages
         public string GameResult { get; set; }
         private static Random rnd = new Random();
 
+        public PlayBlackjackModel()
+        {
+
+        }
+        
         public void OnGet()
         {
-            InitializeGame();
-            GameStart();
-           // Blackjack();
-            GameResult = DetermineWinner();
+            GetTempData();
+
+            if (CardValues.Count == 0 || CardSuits.Count == 0 || Cards.Count == 0)
+            {
+                ResetGame();
+                InitializeGame();
+                SetTempData();
+            }
+
+            if (PlayerHand.Count == 0 && DealerHand.Count == 0)
+            {
+                GameStart();
+            }
+
+            SetTempData();
         }
 
         public void InitializeGame()
@@ -64,13 +82,11 @@ namespace FRONTBJ.Pages
                 }
             }
 
+
         }
 
         public void GameStart()
         {
-            DealerScore = 0;
-            PlayerScore = 0;
-
             for (int i = 0; i < 3; i++)
             {
                 IActionResult result = DrawCard();
@@ -87,30 +103,94 @@ namespace FRONTBJ.Pages
                 }
             }
 
+            CalculatePlayerScore();
+            CalculateDealerScore();
+
         }
 
-        public void Blackjack()
+        private void GetTempData()
         {
-            while (!(PlayerBust || PlayerScore >= MaxScore || DealerScore >= MaxScore || (PlayerScore > DealerScore && DealerScore >= 17)))
+            if (TempData.ContainsKey("PlayerHand"))
             {
-                PlayerTurn();
-                DealerTurn();
+                string serializedPlayerHand = TempData["PlayerHand"] as string;
+                if (serializedPlayerHand != null)
+                {
+                    PlayerHand = JsonConvert.DeserializeObject<List<string>>(serializedPlayerHand);
+                }
             }
-
-            DetermineWinner();
-            ResetGame();
+            if (TempData.ContainsKey("DealerHand"))
+            {
+                string serializedDealerHand = TempData["DealerHand"] as string;
+                if (serializedDealerHand != null)
+                {
+                    DealerHand = JsonConvert.DeserializeObject<List<string>>(serializedDealerHand);
+                }
+            }
+            if (TempData.ContainsKey("PlayerScore"))
+            {
+                PlayerScore = Convert.ToInt32(TempData["PlayerScore"]);
+            }
+            if (TempData.ContainsKey("DealerScore"))
+            {
+                DealerScore = Convert.ToInt32(TempData["DealerScore"]);
+            }
+            if (TempData.ContainsKey("CardValues"))
+            {
+                string serializedCardValues = TempData["CardValues"] as string;
+                if (serializedCardValues != null)
+                {
+                    CardValues = JsonConvert.DeserializeObject<Dictionary<string, int>>(serializedCardValues);
+                }
+            }
+            if (TempData.ContainsKey("CardSuits"))
+            {
+                string serializedCardSuits = TempData["CardSuits"] as string;
+                if (serializedCardSuits != null)
+                {
+                    CardSuits = JsonConvert.DeserializeObject<Dictionary<int, string>>(serializedCardSuits);
+                }
+            }
+            if (TempData.ContainsKey("Cards"))
+            {
+                string serializedCards = TempData["Cards"] as string;
+                if (serializedCards != null)
+                {
+                    Cards = JsonConvert.DeserializeObject<List<int>>(serializedCards);
+                }
+            }
+            if (TempData.ContainsKey("PlayedCards"))
+            {
+                string serializedPlayedCards = TempData["PlayedCards"] as string;
+                if (serializedPlayedCards != null)
+                {
+                    PlayedCards = JsonConvert.DeserializeObject<List<int>>(serializedPlayedCards);
+                }
+            }
+            if (TempData.ContainsKey("GameResult"))
+            {
+                GameResult = TempData["GameResult"] as string;
+            }
+        }
+        private void SetTempData()
+        {
+            TempData["PlayerHand"] = JsonConvert.SerializeObject(PlayerHand);
+            TempData["DealerHand"] = JsonConvert.SerializeObject(DealerHand);
+            TempData["PlayerScore"] = PlayerScore;
+            TempData["DealerScore"] = DealerScore;
+            TempData["CardValues"] = JsonConvert.SerializeObject(CardValues);
+            TempData["CardSuits"] = JsonConvert.SerializeObject(CardSuits);
+            TempData["Cards"] = JsonConvert.SerializeObject(Cards);
+            TempData["PlayedCards"] = JsonConvert.SerializeObject(PlayedCards);
+            TempData["GameResult"] = GameResult;
         }
 
         private void PlayerTurn()
         {
+
             if (PlayerScore < MaxScore)
             {
-                IActionResult hitResult = OnPostHit();
-                if (hitResult is ContentResult contentResult)
-                {
-                    PlayerHand.Add(contentResult.Content);
-                    CalculatePlayerScore();
-                }
+                OnPostHit();
+
             }
         }
 
@@ -118,12 +198,7 @@ namespace FRONTBJ.Pages
         {
             while (DealerScore < 17 && !DealerBust)
             {
-                IActionResult hitResult = OnPostHit();
-                if (hitResult is ContentResult contentResult)
-                {
-                    DealerHand.Add(contentResult.Content);
-                    CalculateDealerScore();
-                }
+                OnPostStand();
             }
         }
 
@@ -158,17 +233,31 @@ namespace FRONTBJ.Pages
 
         private void ResetGame()
         {
+            if (TempData != null)
+            {
+                TempData.Clear();
+                ClearProperties();
+            }
+        }
+
+        private void ClearProperties()
+        {
             PlayerHand.Clear();
             DealerHand.Clear();
-            PlayerBust = false;
-            DealerBust = false;
+            Cards.Clear();
+            PlayedCards.Clear();
+            CardValues.Clear();
+            CardSuits.Clear();
+            GameResult = "";
             PlayerScore = 0;
             DealerScore = 0;
-            PlayedCards.Clear();
+            PlayerBust = false;
+            DealerBust = false;
         }
 
         private IActionResult DrawCard()
         {
+
             if (Cards.Count == 0)
             {
                 return Content("No more cards in the deck.");
@@ -181,12 +270,14 @@ namespace FRONTBJ.Pages
 
             string cardValue = CardValues.Keys.ElementAt(card - 1);
             string cardSuit = CardSuits[rnd.Next(1, 5)];
+
 
             return Content($"{cardValue} of {cardSuit}");
         }
 
         private IActionResult DrawCardForDealer()
         {
+
             if (Cards.Count == 0)
             {
                 return Content("No more cards in the deck.");
@@ -199,6 +290,7 @@ namespace FRONTBJ.Pages
 
             string cardValue = CardValues.Keys.ElementAt(card - 1);
             string cardSuit = CardSuits[rnd.Next(1, 5)];
+
 
             return Content($"{cardValue} of {cardSuit}");
         }
@@ -206,12 +298,6 @@ namespace FRONTBJ.Pages
 
         public IActionResult OnPostHit()
         {
-            if (PlayerBust || PlayerScore >= MaxScore)
-            {
-                // Player is already bust or has reached maximum score
-                // Handle this case as needed, for instance, display a message
-                return Content("Cannot hit. Game over for player.");
-            }
 
             if (PlayerHand.Count < 5) // Assuming a maximum of 5 cards per hand
             {
@@ -221,25 +307,25 @@ namespace FRONTBJ.Pages
                     PlayerHand.Add(contentResult.Content);
                     CalculatePlayerScore();
                 }
-                return Content("Hit successful"); // Optional: Message indicating successful hit
             }
-            else
+
+            if (PlayerScore > MaxScore)
             {
-                // Player already has the maximum number of cards in hand
-                // Handle this case, for instance, display a message
-                return Content("Maximum cards reached. Cannot hit.");
+                // Player is already bust or has reached maximum score
+                // Handle this case as needed, for instance, display a message
+                PlayerBust = true;
+                GameResult = DetermineWinner();
             }
+
+            SetTempData();
+
+            return RedirectToPage();
+
         }
 
 
         public IActionResult OnPostStand()
         {
-            if (PlayerBust || PlayerScore >= MaxScore)
-            {
-                // Player is already bust or has reached maximum score
-                // Handle this case as needed, for instance, display a message
-                return Content("Player cannot stand. Game over for player.");
-            }
 
             while (!(DealerScore > 17) && !DealerBust)
             {
@@ -251,10 +337,17 @@ namespace FRONTBJ.Pages
                 }
             }
 
-            DetermineWinner(); // Method to determine the winner
+            if (DealerScore > MaxScore)
+            {
+                // Player is already bust or has reached maximum score
+                // Handle this case as needed, for instance, display a message
+                DealerBust = true;
+            }
 
+
+            GameResult = DetermineWinner(); // Method to determine the winner
+            SetTempData();
             // Reset the game state, clear hands, scores, etc.
-            ResetGame();
 
             return RedirectToPage(); // Redirect to the game page or another page as needed
         }
@@ -268,7 +361,7 @@ namespace FRONTBJ.Pages
                 string[] cardSplit = item.Split(' ');
                 if (cardSplit.Length >= 2)
                 {
-                    string cardNumber = cardSplit[1];
+                    string cardNumber = cardSplit[0];
                     if (CardValues.ContainsKey(cardNumber))
                     {
                         DealerScore += CardValues[cardNumber];
@@ -276,11 +369,14 @@ namespace FRONTBJ.Pages
                 }
             }
 
-            // Additional logic for handling Ace as 1 or 11 based on the score
-            if (DealerHand.Any(card => card.Contains("A")) && DealerScore + 10 <= MaxScore)
+            if (DealerHand.Any(card => card.Contains("A")) && DealerScore + 11 <= MaxScore)
             {
-                DealerScore += 10;
+                DealerScore += 11;
             }
+
+            SetTempData();
+
+
         }
 
         private void CalculatePlayerScore()
@@ -292,7 +388,7 @@ namespace FRONTBJ.Pages
                 string[] cardSplit = item.Split(' ');
                 if (cardSplit.Length >= 2)
                 {
-                    string cardNumber = cardSplit[1];
+                    string cardNumber = cardSplit[0];
                     if (CardValues.ContainsKey(cardNumber))
                     {
                         PlayerScore += CardValues[cardNumber];
@@ -300,31 +396,37 @@ namespace FRONTBJ.Pages
                 }
             }
 
-            // Additional logic for handling Ace as 1 or 11 based on the score
-            if (PlayerHand.Any(card => card.Contains("A")) && PlayerScore + 10 <= MaxScore)
+            if (PlayerHand.Any(card => card.Contains("A")) && PlayerScore + 11 <= MaxScore)
             {
-                PlayerScore += 10;
+                PlayerScore += 11;
             }
+
+            SetTempData();
+
+
         }
 
         public IActionResult OnPost(string action)
         {
+
+            GetTempData();
             if (action == "Hit")
             {
+                PlayerTurn();
 
-                IActionResult hitResult = OnPostHit();
-                if (hitResult is ContentResult contentResult)
-                {
-                    PlayerHand.Add(contentResult.Content);
-                }
             }
             else if (action == "Stand")
             {
-
-                IActionResult standResult = OnPostStand();
+                DealerTurn();
+            }
+            else if (action == "Reset")
+            {
+                ResetGame();
 
             }
 
+
+            SetTempData();
 
             return RedirectToPage();
         }

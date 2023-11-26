@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "2DXVYX9Cu+lG/eSb8iv6fGLaT1cPl0ffKrhKwZP8j5NmzY6JJ/u4uJdei1QI2Fk+BfNU2W4tYy0y6so1AA6EYA==",
+  "dgSpecHash": "Iy4WMFGyR0dlXDOz5D6FFV2zPz9VDIkb2HkedZtS7A4xpng9cSOfXHFu4cH6l+C33jiOeK0+QxX26EOxba/DBA==",
   "success": true,
   "projectFilePath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
   "expectedPackageFiles": [
@@ -8,6 +8,7 @@
     "C:\\Users\\jkvo1\\.nuget\\packages\\microsoft.data.sqlite.core\\7.0.13\\microsoft.data.sqlite.core.7.0.13.nupkg.sha512",
     "C:\\Users\\jkvo1\\.nuget\\packages\\microsoft.extensions.apidescription.server\\6.0.5\\microsoft.extensions.apidescription.server.6.0.5.nupkg.sha512",
     "C:\\Users\\jkvo1\\.nuget\\packages\\microsoft.openapi\\1.2.3\\microsoft.openapi.1.2.3.nupkg.sha512",
+    "C:\\Users\\jkvo1\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\jkvo1\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.4\\sqlitepclraw.bundle_e_sqlite3.2.1.4.nupkg.sha512",
     "C:\\Users\\jkvo1\\.nuget\\packages\\sqlitepclraw.core\\2.1.4\\sqlitepclraw.core.2.1.4.nupkg.sha512",
     "C:\\Users\\jkvo1\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.4\\sqlitepclraw.lib.e_sqlite3.2.1.4.nupkg.sha512",

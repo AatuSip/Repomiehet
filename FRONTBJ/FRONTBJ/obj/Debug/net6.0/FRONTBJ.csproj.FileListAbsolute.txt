@@ -62,3 +62,4 @@ C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\FRONTBJ\FRONTBJ\obj\Debug\ne
 C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\FRONTBJ\FRONTBJ\obj\Debug\net6.0\FRONTBJ.pdb
 C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\FRONTBJ\FRONTBJ\obj\Debug\net6.0\FRONTBJ.genruntimeconfig.cache
 C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\FRONTBJ\FRONTBJ\obj\Debug\net6.0\ref\FRONTBJ.dll
+C:\Users\jkvo1\OneDrive\Documents\GitHub\Repomiehet\FRONTBJ\FRONTBJ\bin\Debug\net6.0\Newtonsoft.Json.dll

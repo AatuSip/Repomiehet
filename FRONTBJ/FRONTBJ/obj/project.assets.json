@@ -55,6 +55,19 @@
           }
         }
       },
+      "Newtonsoft.Json/13.0.3": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/Newtonsoft.Json.dll": {
+            "related": ".xml"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_e_sqlite3/2.1.4": {
         "type": "package",
         "dependencies": {
@@ -550,6 +563,36 @@
         "microsoft.openapi.nuspec"
       ]
     },
+    "Newtonsoft.Json/13.0.3": {
+      "sha512": "HrC5BXdl00IP9zeV+0Z848QWPAoCr9P3bDEZguI+gkLcBKAOxix/tLEAAHC+UvDNPv4a2d18lOReHMOagPa+zQ==",
+      "type": "package",
+      "path": "newtonsoft.json/13.0.3",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.md",
+        "README.md",
+        "lib/net20/Newtonsoft.Json.dll",
+        "lib/net20/Newtonsoft.Json.xml",
+        "lib/net35/Newtonsoft.Json.dll",
+        "lib/net35/Newtonsoft.Json.xml",
+        "lib/net40/Newtonsoft.Json.dll",
+        "lib/net40/Newtonsoft.Json.xml",
+        "lib/net45/Newtonsoft.Json.dll",
+        "lib/net45/Newtonsoft.Json.xml",
+        "lib/net6.0/Newtonsoft.Json.dll",
+        "lib/net6.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.0/Newtonsoft.Json.dll",
+        "lib/netstandard1.0/Newtonsoft.Json.xml",
+        "lib/netstandard1.3/Newtonsoft.Json.dll",
+        "lib/netstandard1.3/Newtonsoft.Json.xml",
+        "lib/netstandard2.0/Newtonsoft.Json.dll",
+        "lib/netstandard2.0/Newtonsoft.Json.xml",
+        "newtonsoft.json.13.0.3.nupkg.sha512",
+        "newtonsoft.json.nuspec",
+        "packageIcon.png"
+      ]
+    },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.4": {
       "sha512": "EWI1olKDjFEBMJu0+3wuxwziIAdWDVMYLhuZ3Qs84rrz+DHwD00RzWPZCa+bLnHCf3oJwuFZIRsHT5p236QXww==",
       "type": "package",
@@ -755,6 +798,7 @@
   "projectFileDependencyGroups": {
     "net6.0": [
       "Microsoft.Data.sqlite >= 7.0.13",
+      "Newtonsoft.Json >= 13.0.3",
       "Swashbuckle.AspNetCore >= 6.5.0",
       "Swashbuckle.AspNetCore.Swagger >= 6.5.0"
     ]
@@ -765,11 +809,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj",
+      "projectUniqueName": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
       "projectName": "FRONTBJ",
-      "projectPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\FRONTBJ.csproj",
+      "projectPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
       "packagesPath": "C:\\Users\\jkvo1\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\frontbj\\frontbj\\obj\\",
+      "outputPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "C:\\Users\\jkvo1\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -801,6 +845,10 @@
           "Microsoft.Data.sqlite": {
             "target": "Package",
             "version": "[7.0.13, )"
+          },
+          "Newtonsoft.Json": {
+            "target": "Package",
+            "version": "[13.0.3, )"
           },
           "Swashbuckle.AspNetCore": {
             "target": "Package",

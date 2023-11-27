@@ -32,7 +32,6 @@ namespace UserDB.Controllers
             return Ok("User created successfully!");
         }
 
-        [HttpPost("create")]
         private static void CreateTableIfNotExists(SqliteConnection connection)
         {
             var createTableCommand = connection.CreateCommand();

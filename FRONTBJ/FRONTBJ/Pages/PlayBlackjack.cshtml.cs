@@ -31,7 +31,7 @@ namespace FRONTBJ.Pages
         {
 
         }
-        
+
         public void OnGet()
         {
             GetTempData();
@@ -227,6 +227,7 @@ namespace FRONTBJ.Pages
                 result = "You lost!";
             }
 
+            SaveGameStatistics(PlayerScore, DealerScore, result);
             return result;
         }
 
@@ -429,6 +430,45 @@ namespace FRONTBJ.Pages
             SetTempData();
 
             return RedirectToPage();
+        }
+
+        private async Task SaveGameStatistics(int playerScore, int dealerScore, string gameResult)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var gameStatistics = new
+                    {
+                        PlayerScore = playerScore,
+                        DealerScore = dealerScore,
+                        GameResult = gameResult
+                    };
+
+                    string json = JsonConvert.SerializeObject(gameStatistics);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7135/GameStatistics/result", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response data if any
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        // Update UI or perform other actions based on the successful result
+                    }
+                    else
+                    {
+                        // Log the error or show an error message to the user
+                        var error = await response.Content.ReadAsStringAsync();
+                        // Perform other error handling actions
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception or show an error message to the user
+                    Console.WriteLine(ex.Message);
+                    // Perform other exception handling actions
+                }
+            }
         }
     }
 }

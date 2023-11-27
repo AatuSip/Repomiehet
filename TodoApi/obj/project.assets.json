@@ -791,19 +791,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Tivi\\.nuget\\packages\\": {}
+    "C:\\Users\\jkvo1\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Tivi\\Desktop\\VSCode\\NewApiTest\\Todoapi\\TodoApi.csproj",
+      "projectUniqueName": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\ToDoapi\\TodoApi.csproj",
       "projectName": "TodoApi",
-      "projectPath": "C:\\Users\\Tivi\\Desktop\\VSCode\\NewApiTest\\Todoapi\\TodoApi.csproj",
-      "packagesPath": "C:\\Users\\Tivi\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Tivi\\Desktop\\VSCode\\NewApiTest\\Todoapi\\obj\\",
+      "projectPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\ToDoapi\\TodoApi.csproj",
+      "packagesPath": "C:\\Users\\jkvo1\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\jkvo1\\OneDrive\\Documents\\GitHub\\Repomiehet\\ToDoapi\\obj\\",
       "projectStyle": "PackageReference",
       "configFilePaths": [
-        "C:\\Users\\Tivi\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\jkvo1\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -861,7 +861,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.401\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.403\\RuntimeIdentifierGraph.json"
       }
     }
   }

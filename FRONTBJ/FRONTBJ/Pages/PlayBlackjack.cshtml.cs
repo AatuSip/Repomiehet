@@ -1,15 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
-using System.Collections.Generic;
-using System.Net;
-using System.Runtime.Serialization;
-using System.Reflection.Emit;
-using System.Data;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using System;
 using System.Collections.Generic;
+using System.Text;
+using Newtonsoft.Json;
 
 
-namespace FRONT_BJ.Pages
+namespace FRONTBJ.Pages
 {
     public class PlayBlackjackModel : PageModel
     {
@@ -24,14 +22,33 @@ namespace FRONT_BJ.Pages
         public bool PlayerBust { get; set; } = false;
         public int DealerScore { get; set; } = 0;
         public bool DealerBust { get; set; } = false;
-        public int Money { get; set; } = 1000;
-        public int Bet { get; set; } = 0;
+        private const int MaxCardValue = 13;
+        private const int MaxScore = 21;
+        public string GameResult { get; set; }
+        private static Random rnd = new Random();
+
+        public PlayBlackjackModel()
+        {
+
+        }
 
         public void OnGet()
         {
-            InitializeGame();
-            GameStart();
+            GetTempData();
 
+            if (CardValues.Count == 0 || CardSuits.Count == 0 || Cards.Count == 0)
+            {
+                ResetGame();
+                InitializeGame();
+                SetTempData();
+            }
+
+            if (PlayerHand.Count == 0 && DealerHand.Count == 0)
+            {
+                GameStart();
+            }
+
+            SetTempData();
         }
 
         public void InitializeGame()
@@ -52,10 +69,10 @@ namespace FRONT_BJ.Pages
             CardValues.Add("Q", 10);
             CardValues.Add("K", 10);
 
-            CardSuits.Add(1, "Hearts");
-            CardSuits.Add(2, "Diamonds");
-            CardSuits.Add(3, "Clubs");
-            CardSuits.Add(4, "Spades");
+            CardSuits.Add(1, "♥");
+            CardSuits.Add(2, "♦");
+            CardSuits.Add(3, "♣");
+            CardSuits.Add(4, "♠");
 
             for (int i = 1; i <= 13; i++)
             {
@@ -66,26 +83,392 @@ namespace FRONT_BJ.Pages
             }
 
 
-
         }
 
         public void GameStart()
         {
-            
+            for (int i = 0; i < 3; i++)
+            {
+                IActionResult result = DrawCard();
+                if (result is ContentResult contentResult)
+                {
+                    if (PlayerHand.Count < 2)
+                    {
+                        PlayerHand.Add(contentResult.Content);
+                    }
+                    else
+                    {
+                        DealerHand.Add(contentResult.Content);
+                    }
+                }
+            }
+
+            CalculatePlayerScore();
+            CalculateDealerScore();
+
         }
 
-        public void OnPostHit()
+        private void GetTempData()
         {
-            // Handle hit action
-
-
+            if (TempData.ContainsKey("PlayerHand"))
+            {
+                string serializedPlayerHand = TempData["PlayerHand"] as string;
+                if (serializedPlayerHand != null)
+                {
+                    PlayerHand = JsonConvert.DeserializeObject<List<string>>(serializedPlayerHand);
+                }
+            }
+            if (TempData.ContainsKey("DealerHand"))
+            {
+                string serializedDealerHand = TempData["DealerHand"] as string;
+                if (serializedDealerHand != null)
+                {
+                    DealerHand = JsonConvert.DeserializeObject<List<string>>(serializedDealerHand);
+                }
+            }
+            if (TempData.ContainsKey("PlayerScore"))
+            {
+                PlayerScore = Convert.ToInt32(TempData["PlayerScore"]);
+            }
+            if (TempData.ContainsKey("DealerScore"))
+            {
+                DealerScore = Convert.ToInt32(TempData["DealerScore"]);
+            }
+            if (TempData.ContainsKey("CardValues"))
+            {
+                string serializedCardValues = TempData["CardValues"] as string;
+                if (serializedCardValues != null)
+                {
+                    CardValues = JsonConvert.DeserializeObject<Dictionary<string, int>>(serializedCardValues);
+                }
+            }
+            if (TempData.ContainsKey("CardSuits"))
+            {
+                string serializedCardSuits = TempData["CardSuits"] as string;
+                if (serializedCardSuits != null)
+                {
+                    CardSuits = JsonConvert.DeserializeObject<Dictionary<int, string>>(serializedCardSuits);
+                }
+            }
+            if (TempData.ContainsKey("Cards"))
+            {
+                string serializedCards = TempData["Cards"] as string;
+                if (serializedCards != null)
+                {
+                    Cards = JsonConvert.DeserializeObject<List<int>>(serializedCards);
+                }
+            }
+            if (TempData.ContainsKey("PlayedCards"))
+            {
+                string serializedPlayedCards = TempData["PlayedCards"] as string;
+                if (serializedPlayedCards != null)
+                {
+                    PlayedCards = JsonConvert.DeserializeObject<List<int>>(serializedPlayedCards);
+                }
+            }
+            if (TempData.ContainsKey("GameResult"))
+            {
+                GameResult = TempData["GameResult"] as string;
+            }
         }
-
-        public void OnPostStand()
+        private void SetTempData()
         {
-            // Handle stand action
+            TempData["PlayerHand"] = JsonConvert.SerializeObject(PlayerHand);
+            TempData["DealerHand"] = JsonConvert.SerializeObject(DealerHand);
+            TempData["PlayerScore"] = PlayerScore;
+            TempData["DealerScore"] = DealerScore;
+            TempData["CardValues"] = JsonConvert.SerializeObject(CardValues);
+            TempData["CardSuits"] = JsonConvert.SerializeObject(CardSuits);
+            TempData["Cards"] = JsonConvert.SerializeObject(Cards);
+            TempData["PlayedCards"] = JsonConvert.SerializeObject(PlayedCards);
+            TempData["GameResult"] = GameResult;
         }
 
-        // Add other methods and properties as needed
+        private void PlayerTurn()
+        {
+
+            if (PlayerScore < MaxScore)
+            {
+                OnPostHit();
+
+            }
+        }
+
+        private void DealerTurn()
+        {
+            while (DealerScore < 17 && !DealerBust)
+            {
+                OnPostStand();
+            }
+        }
+
+        private string DetermineWinner()
+        {
+            string result = "";
+
+            if (PlayerBust)
+            {
+                result = "You busted! Dealer wins.";
+            }
+            else if (DealerBust)
+            {
+                result = "The dealer busted! You win.";
+            }
+            else if (PlayerScore > DealerScore)
+            {
+                result = "You won!";
+            }
+            else if (PlayerScore == DealerScore)
+            {
+                result = "It's a tie!";
+            }
+            else
+            {
+                result = "You lost!";
+            }
+
+            SaveGameStatistics(PlayerScore, DealerScore, result);
+            return result;
+        }
+
+
+        private void ResetGame()
+        {
+            if (TempData != null)
+            {
+                TempData.Clear();
+                ClearProperties();
+            }
+        }
+
+        private void ClearProperties()
+        {
+            PlayerHand.Clear();
+            DealerHand.Clear();
+            Cards.Clear();
+            PlayedCards.Clear();
+            CardValues.Clear();
+            CardSuits.Clear();
+            GameResult = "";
+            PlayerScore = 0;
+            DealerScore = 0;
+            PlayerBust = false;
+            DealerBust = false;
+        }
+
+        private IActionResult DrawCard()
+        {
+
+            if (Cards.Count == 0)
+            {
+                return Content("No more cards in the deck.");
+            }
+
+            int cardIndex = rnd.Next(Cards.Count);
+            int card = Cards[cardIndex];
+            Cards.RemoveAt(cardIndex);
+            PlayedCards.Add(card);
+
+            string cardValue = CardValues.Keys.ElementAt(card - 1);
+            string cardSuit = CardSuits[rnd.Next(1, 5)];
+
+
+            return Content($"{cardValue} of {cardSuit}");
+        }
+
+        private IActionResult DrawCardForDealer()
+        {
+
+            if (Cards.Count == 0)
+            {
+                return Content("No more cards in the deck.");
+            }
+
+            int cardIndex = rnd.Next(Cards.Count);
+            int card = Cards[cardIndex];
+            Cards.RemoveAt(cardIndex);
+            PlayedCards.Add(card);
+
+            string cardValue = CardValues.Keys.ElementAt(card - 1);
+            string cardSuit = CardSuits[rnd.Next(1, 5)];
+
+
+            return Content($"{cardValue} of {cardSuit}");
+        }
+
+
+        public IActionResult OnPostHit()
+        {
+
+            if (PlayerHand.Count < 5) // Assuming a maximum of 5 cards per hand
+            {
+                IActionResult hitResult = DrawCard(); // Custom method to draw a card
+                if (hitResult is ContentResult contentResult)
+                {
+                    PlayerHand.Add(contentResult.Content);
+                    CalculatePlayerScore();
+                }
+            }
+
+            if (PlayerScore > MaxScore)
+            {
+                // Player is already bust or has reached maximum score
+                // Handle this case as needed, for instance, display a message
+                PlayerBust = true;
+                GameResult = DetermineWinner();
+            }
+
+            SetTempData();
+
+            return RedirectToPage();
+
+        }
+
+
+        public IActionResult OnPostStand()
+        {
+
+            while (!(DealerScore > 17) && !DealerBust)
+            {
+                IActionResult hitResult = DrawCardForDealer(); // Custom method to draw a card for the dealer
+                if (hitResult is ContentResult contentResult)
+                {
+                    DealerHand.Add(contentResult.Content);
+                    CalculateDealerScore();
+                }
+            }
+
+            if (DealerScore > MaxScore)
+            {
+                // Player is already bust or has reached maximum score
+                // Handle this case as needed, for instance, display a message
+                DealerBust = true;
+            }
+
+
+            GameResult = DetermineWinner(); // Method to determine the winner
+            SetTempData();
+            // Reset the game state, clear hands, scores, etc.
+
+            return RedirectToPage(); // Redirect to the game page or another page as needed
+        }
+
+        private void CalculateDealerScore()
+        {
+            DealerScore = 0;
+
+            foreach (string item in DealerHand)
+            {
+                string[] cardSplit = item.Split(' ');
+                if (cardSplit.Length >= 2)
+                {
+                    string cardNumber = cardSplit[0];
+                    if (CardValues.ContainsKey(cardNumber))
+                    {
+                        DealerScore += CardValues[cardNumber];
+                    }
+                }
+            }
+
+            if (DealerHand.Any(card => card.Contains("A")) && DealerScore + 11 <= MaxScore)
+            {
+                DealerScore += 11;
+            }
+
+            SetTempData();
+
+
+        }
+
+        private void CalculatePlayerScore()
+        {
+            PlayerScore = 0;
+
+            foreach (string item in PlayerHand)
+            {
+                string[] cardSplit = item.Split(' ');
+                if (cardSplit.Length >= 2)
+                {
+                    string cardNumber = cardSplit[0];
+                    if (CardValues.ContainsKey(cardNumber))
+                    {
+                        PlayerScore += CardValues[cardNumber];
+                    }
+                }
+            }
+
+            if (PlayerHand.Any(card => card.Contains("A")) && PlayerScore + 11 <= MaxScore)
+            {
+                PlayerScore += 11;
+            }
+
+            SetTempData();
+
+
+        }
+
+        public IActionResult OnPost(string action)
+        {
+
+            GetTempData();
+            if (action == "Hit")
+            {
+                PlayerTurn();
+
+            }
+            else if (action == "Stand")
+            {
+                DealerTurn();
+            }
+            else if (action == "Reset")
+            {
+                ResetGame();
+
+            }
+
+
+            SetTempData();
+
+            return RedirectToPage();
+        }
+
+        private async Task SaveGameStatistics(int playerScore, int dealerScore, string gameResult)
+        {
+            using (HttpClient client = new HttpClient())
+            {
+                try
+                {
+                    var gameStatistics = new
+                    {
+                        PlayerScore = playerScore,
+                        DealerScore = dealerScore,
+                        GameResult = gameResult
+                    };
+
+                    string json = JsonConvert.SerializeObject(gameStatistics);
+                    var content = new StringContent(json, Encoding.UTF8, "application/json");
+
+                    HttpResponseMessage response = await client.PostAsync("https://localhost:7135/GameStatistics/result", content);
+                    if (response.IsSuccessStatusCode)
+                    {
+                        // Parse the response data if any
+                        var responseData = await response.Content.ReadAsStringAsync();
+                        // Update UI or perform other actions based on the successful result
+                    }
+                    else
+                    {
+                        // Log the error or show an error message to the user
+                        var error = await response.Content.ReadAsStringAsync();
+                        // Perform other error handling actions
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception or show an error message to the user
+                    Console.WriteLine(ex.Message);
+                    // Perform other exception handling actions
+                }
+            }
+        }
     }
 }

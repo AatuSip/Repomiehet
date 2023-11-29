@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace FRONT_BJ.Pages
+namespace FRONTBJ.Pages
 {
     public class IndexModel : PageModel
     {

@@ -51,6 +51,14 @@
             border-radius: 5px;
         }
 
+        #score {
+            margin-top: 20px;
+        }
+
+        #result {
+            margin-top: 20px;
+        }
+
         #actions {
             margin-top: 20px;
         }
@@ -63,10 +71,45 @@
             border: none;
             border-radius: 5px;
             cursor: pointer;
+            margin-right: 10px;
         }
 
         button:hover {
             background-color: #0056b3;
+        }
+
+        #bet-section {
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        #bet-input {
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        #bank-section {
+            margin-top: 20px;
+            color: #fff;
+        }
+
+        #bank-amount {
+            margin-bottom: 10px;
+        }
+
+        #bet-button {
+            padding: 10px 20px;
+            font-size: 18px;
+            background-color: #ffc107;
+            color: #000;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-left: 10px;
+        }
+
+        #bet-button:hover {
+            background-color: #ffca2c;
         }
     </style>
 </head>
@@ -114,6 +157,15 @@
             <button type="submit" name="action" value="Reset">Reset</button>
         </form>
     </div>
+
+    <!-- Betting Section -->
+    <div id="bet-section">
+        <label for="bet-input">Bet:</label>
+        <input type="number" id="bet-input" name="bet" min="1" max="100">
+        <p>Current Bet: $0</p>
+        <button id="bet-button">BET</button>
+    </div>
+
 </body>
 
 </html>

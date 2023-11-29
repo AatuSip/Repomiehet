@@ -804,23 +804,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\Simo\\.nuget\\packages\\": {},
+    "C:\\Users\\aatus\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Simo\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
+      "projectUniqueName": "C:\\Users\\aatus\\OneDrive\\Tiedostot\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
       "projectName": "FRONTBJ",
-      "projectPath": "C:\\Users\\Simo\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
-      "packagesPath": "C:\\Users\\Simo\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Simo\\Documents\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\obj\\",
+      "projectPath": "C:\\Users\\aatus\\OneDrive\\Tiedostot\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\FRONTBJ.csproj",
+      "packagesPath": "C:\\Users\\aatus\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\aatus\\OneDrive\\Tiedostot\\GitHub\\Repomiehet\\FRONTBJ\\FRONTBJ\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
-        "C:\\Users\\Simo\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\aatus\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
@@ -875,24 +875,6 @@
         ],
         "assetTargetFallback": true,
         "warn": true,
-        "downloadDependencies": [
-          {
-            "name": "Microsoft.AspNetCore.App.Ref",
-            "version": "[6.0.23, 6.0.23]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Host.win-x64",
-            "version": "[6.0.23, 6.0.23]"
-          },
-          {
-            "name": "Microsoft.NETCore.App.Ref",
-            "version": "[6.0.23, 6.0.23]"
-          },
-          {
-            "name": "Microsoft.WindowsDesktop.App.Ref",
-            "version": "[6.0.23, 6.0.23]"
-          }
-        ],
         "frameworkReferences": {
           "Microsoft.AspNetCore.App": {
             "privateAssets": "none"
@@ -901,7 +883,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100-rc.2.23502.2\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.404\\RuntimeIdentifierGraph.json"
       }
     }
   }

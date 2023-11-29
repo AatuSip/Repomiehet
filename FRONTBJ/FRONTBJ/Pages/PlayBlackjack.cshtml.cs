@@ -272,7 +272,6 @@ namespace FRONTBJ.Pages
             string cardValue = CardValues.Keys.ElementAt(card - 1);
             string cardSuit = CardSuits[rnd.Next(1, 5)];
 
-
             return Content($"{cardValue} of {cardSuit}");
         }
 
@@ -370,9 +369,9 @@ namespace FRONTBJ.Pages
                 }
             }
 
-            if (DealerHand.Any(card => card.Contains("A")) && DealerScore + 11 <= MaxScore)
+            if (DealerHand.Any(card => card.Contains("A")) && DealerScore + 10 <= MaxScore)
             {
-                DealerScore += 11;
+                DealerScore += 10;
             }
 
             SetTempData();
@@ -397,9 +396,9 @@ namespace FRONTBJ.Pages
                 }
             }
 
-            if (PlayerHand.Any(card => card.Contains("A")) && PlayerScore + 11 <= MaxScore)
+            if (PlayerHand.Any(card => card.Contains("A")) && PlayerScore + 10 <= MaxScore)
             {
-                PlayerScore += 11;
+                PlayerScore += 10;
             }
 
             SetTempData();

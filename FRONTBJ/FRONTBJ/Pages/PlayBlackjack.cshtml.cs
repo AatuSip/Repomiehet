@@ -22,6 +22,7 @@ namespace FRONTBJ.Pages
         public bool PlayerBust { get; set; } = false;
         public int DealerScore { get; set; } = 0;
         public bool DealerBust { get; set; } = false;
+        public bool GameOver { get; set; } = false;
         private const int MaxCardValue = 13;
         private const int MaxScore = 21;
         public string GameResult { get; set; }
@@ -170,6 +171,10 @@ namespace FRONTBJ.Pages
             {
                 GameResult = TempData["GameResult"] as string;
             }
+            if (TempData.ContainsKey("GameOver"))
+            {
+                GameOver = Convert.ToBoolean(TempData["GameOver"]);
+            }
         }
         private void SetTempData()
         {
@@ -182,12 +187,13 @@ namespace FRONTBJ.Pages
             TempData["Cards"] = JsonConvert.SerializeObject(Cards);
             TempData["PlayedCards"] = JsonConvert.SerializeObject(PlayedCards);
             TempData["GameResult"] = GameResult;
+            TempData["GameOver"] = GameOver;
         }
 
         private void PlayerTurn()
         {
 
-            if (PlayerScore < MaxScore)
+            if (PlayerScore < MaxScore && !GameOver)
             {
                 OnPostHit();
 
@@ -196,7 +202,7 @@ namespace FRONTBJ.Pages
 
         private void DealerTurn()
         {
-            while (DealerScore < 17 && !DealerBust)
+            while (DealerScore < 17 && !DealerBust && !GameOver)
             {
                 OnPostStand();
             }
@@ -205,6 +211,7 @@ namespace FRONTBJ.Pages
         private string DetermineWinner()
         {
             string result = "";
+            GameOver = true;
 
             if (PlayerBust)
             {
@@ -239,6 +246,7 @@ namespace FRONTBJ.Pages
                 TempData.Clear();
                 ClearProperties();
             }
+            GameOver = false;
         }
 
         private void ClearProperties()
@@ -299,7 +307,7 @@ namespace FRONTBJ.Pages
         public IActionResult OnPostHit()
         {
 
-            if (PlayerHand.Count < 5) // Assuming a maximum of 5 cards per hand
+            if (GameOver == false) // If the game is not over, draw a card
             {
                 IActionResult hitResult = DrawCard(); // Custom method to draw a card
                 if (hitResult is ContentResult contentResult)
@@ -312,7 +320,7 @@ namespace FRONTBJ.Pages
             if (PlayerScore > MaxScore)
             {
                 // Player is already bust or has reached maximum score
-                // Handle this case as needed, for instance, display a message
+                // Handle this case as needed, for instance, display a message,
                 PlayerBust = true;
                 GameResult = DetermineWinner();
             }
@@ -326,8 +334,7 @@ namespace FRONTBJ.Pages
 
         public IActionResult OnPostStand()
         {
-
-            while (!(DealerScore > 17) && !DealerBust)
+            while (!(DealerScore > 17) && !DealerBust && !GameOver)
             {
                 IActionResult hitResult = DrawCardForDealer(); // Custom method to draw a card for the dealer
                 if (hitResult is ContentResult contentResult)
@@ -343,7 +350,6 @@ namespace FRONTBJ.Pages
                 // Handle this case as needed, for instance, display a message
                 DealerBust = true;
             }
-
 
             GameResult = DetermineWinner(); // Method to determine the winner
             SetTempData();
